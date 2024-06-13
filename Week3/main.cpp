@@ -21,7 +21,7 @@ using namespace std;
 
 int * genArr (int &n) {
     srand(time(0));
-    n = 100000;//rand() % 15 + 10;
+    n = rand() % 15 + 10;
     int *arr = new int[n];
     for (int i = 0; i < n; i++) 
         arr[i] = rand() %  100;
@@ -102,6 +102,57 @@ void linkedListSort (int *a, int n) {
     }
 }
 
+//B2 Tree sort
+struct NodeTree {
+    int data;
+    NodeTree* left;
+    NodeTree* right;
+};
+
+NodeTree * createNodeTree (int key) {
+    NodeTree * node = new NodeTree;
+    node->data = key;
+    node->left = nullptr;
+    node->right = nullptr;
+    return node;
+}
+
+void insertNode (NodeTree *&root, int key) {
+    if (root == nullptr) {
+        root = createNodeTree(key);
+        return;
+    }
+    if (key > root->data) {
+        if (root->right == nullptr)
+            root->right = createNodeTree(key);
+        else
+            insertNode(root->right, key);
+    }
+    else {
+        if (root->left == nullptr)
+            root->left = createNodeTree(key);
+        else
+            insertNode(root->left, key);
+    }
+        
+}
+
+void storeSort (NodeTree *root, int *a, int &k) {
+    if (root == nullptr)
+        return;
+    storeSort(root->left, a, k);
+    a[k++] = root->data;
+    storeSort(root->right, a, k);
+}
+
+void treeSort (int *a, int n) {
+    NodeTree *root = nullptr;
+    for (int i = 0; i < n; i++) 
+        insertNode(root, a[i]);
+    int tmp = 0;
+    storeSort(root, a, tmp);
+}
+
 //B3
 int countInversions (int *a, int n) {
     int count = 0;
@@ -155,25 +206,44 @@ void countDistinctString (string *a, int n) {
 
 int main()
 {
+//B1
+    // int n;
+    // int *a = genArr(n); 
+    // cout << "Original array: ";
+    // printArr(a, n);
+    // linkedListSort(a, n);
+    // cout << "Sorted array: ";
+    // printArr(a, n);
+
+
+//B2 
+    // int n;
+    // int *a = genArr(n); 
+    // cout << "Original array: ";
+    // printArr(a, n);
+    // treeSort(a, n);
+    // cout << "Sorted array: ";
+    // printArr(a, n);
+
+// B3
+    // int n = 4;
+    // int *a = genArr(n); 
+    // int a[] = {8, 4, 2, 1};
+    // printArr(a, n);
+    // cout << countInversions(a, n);
+    //linkedListSort(a, n);
+    //printArr(a, n);
+
+//B4
     // string * list;
     // int n = 10;
     // list = genArrString(n);
     // cout << "Original array: ";
- 
     // quickSort(list, n);
-    
     // for (int i = 0; i < n; i++) cout << list[i] << " ";
     // cout << endl;
     // countDistinctString(list, n);
     // delete [] list;
-
-    int n = 4;
-    //int *a = genArr(n); 
-    int a[] = {8, 4, 2, 1};
-    printArr(a, n);
-    cout << countInversions(a, n);
-    //linkedListSort(a, n);
-    //printArr(a, n);
 
     return 0;
 }

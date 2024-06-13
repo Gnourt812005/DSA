@@ -1,3 +1,7 @@
+/*
+    Ta Xuan Truong _ 23127506
+*/
+
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
@@ -19,7 +23,7 @@ int * genArr (int &n) {
     n = 1000000;
     int *a = new int[n];
     for (int i = 0; i < n; i ++) 
-        a[i] = rand() % 100000000 + 2000000;
+        a[i] = rand() % 2000000000;
     return a;
 }
 
@@ -105,14 +109,14 @@ void countRadixSort (int *a, int n, int digit) {
     for (int i = 0; i < 19; i++) 
         count[i] = 0;
     for (int i = 0; i < n; i ++) {
-        int tmp = abs((a[i] / digit) % 10);
+        int tmp = abs((a[i] / digit)) % 10;
         if (a[i] < 0)
             tmp = ~tmp + 1;
         count[tmp + 9] ++;
     }
     for (int i = 1; i < 19; i++)
         count[i] += count[i - 1];
-    int res[n];
+    int *res = new int [n];
     for (int i = n - 1; i > -1; i--) {
         int tmp = abs((a[i] / digit) % 10);
         if (a[i] < 0)
@@ -121,7 +125,8 @@ void countRadixSort (int *a, int n, int digit) {
         count[tmp + 9] --;
     }
     for (int i = 0; i < n; i++) 
-        a[i] = res[i];   
+        a[i] = res[i]; 
+    delete [] res;  
 }
 
 void radixSort (int *a, int n) {

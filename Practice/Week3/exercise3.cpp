@@ -66,16 +66,6 @@ int main()
     Candidate *list;
     inputList(list, n, opt, m);
     process(list, n, opt, m);
-    // quickSort(list, n, cmpAve);
-    // for (int i = 0; i < n; i++) {
-    //     cout << list[i].p1 << " " << list[i].p2 << " " << list[i].ave;
-    //     // for (int j = 0; j < m; j++) {
-    //     //     cout << " " << list[i].opt_order[j];
-    //     // }
-    //     cout << '\n';
-    // }
-    // cout << endl;
-    
     return 0;
 }
 
@@ -148,6 +138,7 @@ void quickSort (Candidate *a, int n, bool (*cmp)(Candidate &, Candidate &)) {
 
 void process (Candidate *list, int n, int * opt, int m) {
     quickSort(list, n, cmpAve);
+
     vector <Candidate> res[m];
     vector <Candidate> rejected;
     for (int i = 0; i < n; i++) {
@@ -156,6 +147,7 @@ void process (Candidate *list, int n, int * opt, int m) {
         for (j = 0; j < m; j ++) {
             if (opt[tmp[j]] != 0) {
                 res[tmp[j]].push_back(list[i]);
+                opt[tmp[j]]--;
                 break;
             }
             else {
@@ -170,15 +162,18 @@ void process (Candidate *list, int n, int * opt, int m) {
         if (j == m)
             rejected.push_back(list[i]);
     }
+
+
+    // print the output
     for (int i = 0; i < m; i++) {
         cout << "Option: " << i + 1 << ":\n";
         for (int j = 0; j < res[i].size(); j++) {
-            cout << res[i][j].name << " " << res[i][j].ave << '\n';
+            cout << j + 1 << ". " <<  res[i][j].name << " " << res[i][j].ave << '\n';
         }
         cout << '\n';
     }
+
     cout << "Rejected candidate:\n";
-    for (auto x : rejected) {
-        cout << x.name << " " << x.ave << '\n';
-    }
+    for (int i = 0; i < rejected.size(); i++)
+        cout << i + 1 << ". " << rejected[i].name << rejected[i].ave << '\n';
 }
